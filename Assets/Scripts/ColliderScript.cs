@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ColliderScript : MonoBehaviour
+public class Collider : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -14,10 +14,11 @@ public class ColliderScript : MonoBehaviour
     {
 
     }
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("enter");
 
-        if (other?.body?.gameObject?.tag == "Obstacle")
+        if (other?.gameObject?.tag == "Obstacle")
         {
             Debug.Log("Hit");
         }

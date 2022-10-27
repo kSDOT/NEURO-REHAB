@@ -85,7 +85,7 @@ public class Spawner : MonoBehaviour
             {
 
                 Vector3 pos = obstacle.transform.position;
-                pos.z -= 2f * Time.deltaTime;
+                pos.z -= this.currentSpeed * Time.deltaTime;
                 obstacle.transform.position = pos;
             }
         }
