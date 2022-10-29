@@ -1,12 +1,10 @@
 using UnityEngine;
 
-public class Collider : MonoBehaviour
+public class ColliderScript : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("test");
-
     }
 
     // Update is called once per frame
@@ -16,7 +14,6 @@ public class Collider : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("enter");
 
         if (other?.gameObject?.tag == "Obstacle")
         {

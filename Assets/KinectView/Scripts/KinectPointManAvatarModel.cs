@@ -54,8 +54,10 @@ public class KinectPointManAvatarModel : BasicAvatarModel
 {JointType.AnkleRight , JointType.FootRight },
 {JointType.FootRight , JointType.AnkleRight },// rotation of bone endings can't be computed from bone positions 
 {JointType.SpineShoulder , JointType.Neck },
+
 {JointType.HandTipLeft , JointType.HandLeft },// rotation of bone endings can't be computed from bone positions 
 {JointType.ThumbLeft , JointType.WristLeft },// rotation of bone endings can't be computed from bone positions 
+
 {JointType.HandTipRight , JointType.HandRight },// rotation of bone endings can't be computed from bone positions 
 {JointType.ThumbRight , JointType.WristRight }// rotation of bone endings can't be computed from bone positions 
 
@@ -93,7 +95,7 @@ public class KinectPointManAvatarModel : BasicAvatarModel
             return Vector3.zero;
         CameraSpacePoint point = currentBody.Joints[jt].Position;
         // mirror on X/Y Plane to remove mirroring effect of the kinect data
-        return new Vector3(-point.X, point.Y, point.Z) * 10.0f;
+        return new Vector3(point.X, point.Y, -point.Z) * 10.0f;
     }
 
     public override Quaternion getRawWorldRotation(JointType jt)
@@ -154,15 +156,11 @@ public class KinectPointManAvatarModel : BasicAvatarModel
 
     public virtual Vector3 getJointDirection(JointType jt)
     {
+       
         Vector3 jointPos = getRawWorldPosition(jt);
 
         Vector3 nextJointPos = getRawWorldPosition(fromToJoints[jt]);
-        if (!fromToJoints.ContainsKey(jt))
-        {
-
-            Debug.Log("isempty: " + jt.ToString());
-        }
-
+ 
         return nextJointPos - jointPos;
     }
 
