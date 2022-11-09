@@ -32,6 +32,13 @@ public class MainMenu : MonoBehaviour
     public static Dictionary<Obstacle.BodyPart, bool> parts = new Dictionary<Obstacle.BodyPart, bool>();
 
 
+    public void Start()
+    {
+        foreach (Obstacle.BodyPart value in Enum.GetValues(typeof(Obstacle.BodyPart)))
+        {
+            parts[value] = true;
+        }
+    }
     void FixedUpdate()
     {
         parts[Obstacle.BodyPart.RightArm] = rAToggle.isOn;

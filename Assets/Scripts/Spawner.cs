@@ -38,8 +38,12 @@ public class Spawner : MonoBehaviour
 
     private (Vector3, Obstacle.BodyPart) RandomInitialize()
     {
-        List<Obstacle.BodyPart> keyList = new List<Obstacle.BodyPart>();// MainMenu.parts.Where(kvp => kvp.Value == true).Select(kvp=> kvp.Key).ToList();
-        Obstacle.BodyPart part = keyList[UnityEngine.Random.Range(0, keyList.Count)];
+        List<Obstacle.BodyPart> keyList =  MainMenu.parts.Where(kvp => kvp.Value == true).Select(kvp=> kvp.Key).ToList();
+        if (keyList.Count == 0)
+        {
+            throw new Exception("Need to select at least 1 part");
+        }
+        Obstacle.BodyPart part = keyList[UnityEngine.Random.Range(0, keyList.Count-1)];
         Vector3 MinValue = Vector3.zero;
         Vector3 MaxValue = Vector3.zero;
         if (part == Obstacle.BodyPart.RightArm)
@@ -59,9 +63,9 @@ public class Spawner : MonoBehaviour
         else if (part == Obstacle.BodyPart.Torso)
         {
 
-            MinValue = GameObject.Find("SpineBase").transform.position;
+            MinValue = GameObject.Find("SpineShoulder").transform.position;
             MaxValue = 
-              (GameObject.Find("SpineBase").transform.position + GameObject.Find("SpineShoulder").transform.position) / 2;
+              (GameObject.Find("SpineBase").transform.position + GameObject.Find("SpineShoulder").transform.position) *2/ 3;
         }
         else if (part == Obstacle.BodyPart.RightLeg)
         {
