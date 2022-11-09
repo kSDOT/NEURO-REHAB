@@ -44,14 +44,14 @@ public class MainMenu : MonoBehaviour
     {
         speedSlide.value = speed;
         spawnSlide.value = spawnInterval;
-        bubbleImg.setActive(false);
-        humImg.setActive(true);
+        bubbleImg.SetActive(false);
+        humImg.SetActive(true);
     }
 
     void Update()
     {
-        speed = Math.Round(speedSlide.value,2);
-        spawnInterval = Math.Round(spawnSlide.value,2);
+        speed = (float) Math.Round(speedSlide.value,2);
+        spawnInterval = (float) Math.Round(spawnSlide.value,2);
         speedTxt.text = "" + Math.Round(speed,2);
         spawnTxt.text = "" + Math.Round(spawnInterval,2);
     }
