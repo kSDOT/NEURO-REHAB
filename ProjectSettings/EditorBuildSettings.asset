@@ -6,8 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Samples/XR Interaction Toolkit/2.2.0/Starter Assets/DemoScene.unity
-    guid: 319dafa5c80f29f428dc1e0d03f04177
+    path: Assets/Scenes/Main Menu.unity
+    guid: 8d77004ffd629ab4fb283a4a89f02444
+  - enabled: 1
+    path: Assets/Scenes/NeuroRehabGame.unity
+    guid: ab2d33c3ec74b304397cdbfc9839462d
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 2ea4811c649d6cb479910f7eb528af3a, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 232abc5817f6ae148860a15c1526f5dd, type: 2}

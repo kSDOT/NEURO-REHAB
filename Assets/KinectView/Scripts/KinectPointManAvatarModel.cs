@@ -94,8 +94,6 @@ public class KinectPointManAvatarModel : BasicAvatarModel
         if (currentBody == null)
             return Vector3.zero;
         CameraSpacePoint point = currentBody.Joints[jt].Position;
-        if (jt.ToString() == "SpineBase")
-            Debug.Log("SpineBase: " + new Vector3(point.X, point.Y, -point.Z));
         // mirror on X/Y Plane to remove mirroring effect of the kinect data
         return new Vector3(point.X, point.Y, -point.Z) * 10.0f;
     }

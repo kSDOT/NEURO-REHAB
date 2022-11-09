@@ -2,35 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEditor;
+using System.Linq;
 
 public class Spawner : MonoBehaviour
 {
 
     #region Fields
     private GameObject Player;
-    public Obstacle Model;
+    public GameObject Model;
 
     public Vector3 Range = new Vector3(5, 0f, 5f);
-    public float SafeDistance = 3f;
+    public float Depth=5f;
     
 
     public int InstantSpawn = 0;
     public List<Obstacle> Spawned;
 
 
-    enum BodyPart { 
-        RightArm,
-        LeftArm,
-        Torso,
-        RightLeg,
-        LeftLeg
-    }
+
     #endregion
 
     // Start is called before the first frame update
     void Start()
     {
         this.Player = GameObject.FindGameObjectWithTag("Player");
+       
+
         for (int i = 0; i < this.InstantSpawn; i++)
         {
             InstantiateObstacle();
@@ -40,11 +38,51 @@ public class Spawner : MonoBehaviour
 
     private (Vector3, Obstacle.BodyPart) RandomInitialize()
     {
-        return (new Vector3(UnityEngine.Random.Range(-this.Range.x / 2, this.Range.x / 2),
-                                UnityEngine.Random.Range(SafeDistance, this.Range.y),
-                                UnityEngine.Random.Range(SafeDistance, this.Range.z)
+        List<Obstacle.BodyPart> keyList = new List<Obstacle.BodyPart>();// MainMenu.parts.Where(kvp => kvp.Value == true).Select(kvp=> kvp.Key).ToList();
+        Obstacle.BodyPart part = keyList[UnityEngine.Random.Range(0, keyList.Count)];
+        Vector3 MinValue = Vector3.zero;
+        Vector3 MaxValue = Vector3.zero;
+        if (part == Obstacle.BodyPart.RightArm)
+        {
+            MinValue = GameObject.Find("WristRight").transform.position;
+            MaxValue = 
+              (GameObject.Find("ElbowRight").transform.position + GameObject.Find("ShoulderRight").transform.position)/2;
 
-                    ), Obstacle.BodyPart.RightArm);
+        }
+        else if (part == Obstacle.BodyPart.LeftArm)
+        {
+
+            MinValue = GameObject.Find("WristLeft").transform.position;
+            MaxValue = 
+              (GameObject.Find("ElbowLeft").transform.position + GameObject.Find("ShoulderLeft").transform.position) / 2;
+        }
+        else if (part == Obstacle.BodyPart.Torso)
+        {
+
+            MinValue = GameObject.Find("SpineBase").transform.position;
+            MaxValue = 
+              (GameObject.Find("SpineBase").transform.position + GameObject.Find("SpineShoulder").transform.position) / 2;
+        }
+        else if (part == Obstacle.BodyPart.RightLeg)
+        {
+
+            MinValue = GameObject.Find("AnkleRight").transform.position;
+            MaxValue =
+              (GameObject.Find("KneeRight").transform.position + GameObject.Find("HipRight").transform.position) / 2;
+        }
+        else if (part == Obstacle.BodyPart.LeftLeg)
+        {
+
+            MinValue = GameObject.Find("AnkleLeft").transform.position;
+            MaxValue =
+              (GameObject.Find("KneeLeft").transform.position + GameObject.Find("HipLeft").transform.position) / 2;
+        }
+
+        return (new Vector3(    UnityEngine.Random.Range(MinValue.x, MaxValue.x),
+                                UnityEngine.Random.Range(MinValue.y, MaxValue.y),
+                                UnityEngine.Random.Range(Depth, Depth)
+
+                    ), part);
     }
 
     
@@ -56,7 +94,7 @@ public class Spawner : MonoBehaviour
     
     private void InstantiateObstacle()
     {
-        Obstacle obs = Instantiate(this.Model) as Obstacle;
+        Obstacle obs = Instantiate(this.Model).GetComponent<Obstacle>();
         this.InitObject(obs);
         this.Spawned.Add(obs);
     }
@@ -65,6 +103,7 @@ public class Spawner : MonoBehaviour
     {
         yield return new WaitForSeconds(MainMenu.spawnInterval);
         InstantiateObstacle();
+        StartCoroutine(SpawnNext());
     }
 
     void Update()
@@ -74,10 +113,11 @@ public class Spawner : MonoBehaviour
             Obstacle obstacle = this.Spawned[index];
             if (obstacle.transform.position.z <= this.Player.transform.position.z - 0.3f)
             {
-                Destroy(obstacle);
+                Destroy(obstacle.gameObject);
                 this.Spawned.Remove(obstacle);
             }
         }
+
     }
 
 }

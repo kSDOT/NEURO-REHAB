@@ -579,7 +579,7 @@ PrefabInstance:
     - target: {fileID: 1152025112, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
       propertyPath: Model
       value: 
-      objectReference: {fileID: 6130457300778422880, guid: 47a8d4a27ba6a95449a7c079fda1d682, type: 3}
+      objectReference: {fileID: 9152230180166424801, guid: 47a8d4a27ba6a95449a7c079fda1d682, type: 3}
     - target: {fileID: 1152025112, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
       propertyPath: Player
       value: 

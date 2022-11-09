@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,9 +29,17 @@ public class MainMenu : MonoBehaviour
 
     public static float speed = 2.0f;// Manuel
     public static float spawnInterval = 1f;// Manuel
+    public static Dictionary<Obstacle.BodyPart, bool> parts = new Dictionary<Obstacle.BodyPart, bool>();
 
 
-    void FixedUpdate(){
+    void FixedUpdate()
+    {
+        parts[Obstacle.BodyPart.RightArm] = rAToggle.isOn;
+        parts[Obstacle.BodyPart.LeftArm] = lAToggle.isOn;
+        parts[Obstacle.BodyPart.Torso] = tToggle.isOn;
+        parts[Obstacle.BodyPart.RightLeg] = rLToggle.isOn;
+        parts[Obstacle.BodyPart.LeftLeg] = lLToggle.isOn;
+
         isRA = rAToggle.isOn;
         isLA = lAToggle.isOn;
         isT = tToggle.isOn;
@@ -57,8 +66,9 @@ public class MainMenu : MonoBehaviour
             human[4].GetComponent<Image>().color = new Color32(0,0,255,255);
         }
     }
-   public void PlayGame() {  
-        SceneManager.LoadScene("Scene");  
+   public void PlayGame() {
+
+        SceneManager.LoadScene("NeuroRehabGame");
     }
     public void Rehab(){
         rehabMenu.SetActive(true);
@@ -89,3 +99,4 @@ public class MainMenu : MonoBehaviour
 
     }
 }
+
