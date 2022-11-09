@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
@@ -12,6 +13,14 @@ public class MainMenu : MonoBehaviour
     [SerializeField] GameObject funMenu;
     [SerializeField] GameObject mainMenu;
     [SerializeField] GameObject settingsMenu;
+
+    [SerializeField] GameObject humImg;
+    [SerializeField] GameObject bubbleImg;
+
+    [SerializeField] Slider speedSlide;
+    [SerializeField] Slider spawnSlide;
+    [SerializeField] TMP_Text speedTxt;
+    [SerializeField] TMP_Text spawnTxt;
 
     public GameObject[] human;
 
@@ -31,6 +40,21 @@ public class MainMenu : MonoBehaviour
     public static float spawnInterval = 1f;// Manuel
     public static Dictionary<Obstacle.BodyPart, bool> parts = new Dictionary<Obstacle.BodyPart, bool>();
 
+    void Awake()
+    {
+        speedSlide.value = speed;
+        spawnSlide.value = spawnInterval;
+        bubbleImg.setActive(false);
+        humImg.setActive(true);
+    }
+
+    void Update()
+    {
+        speed = Math.Round(speedSlide.value,2);
+        spawnInterval = Math.Round(spawnSlide.value,2);
+        speedTxt.text = "" + Math.Round(speed,2);
+        spawnTxt.text = "" + Math.Round(spawnInterval,2);
+    }
 
     void FixedUpdate()
     {
