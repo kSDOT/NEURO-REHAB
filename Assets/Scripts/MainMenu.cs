@@ -56,6 +56,13 @@ public class MainMenu : MonoBehaviour
         spawnTxt.text = "" + Math.Round(spawnInterval,2);
     }
 
+    public void Start()
+    {
+        foreach (Obstacle.BodyPart value in Enum.GetValues(typeof(Obstacle.BodyPart)))
+        {
+            parts[value] = true;
+        }
+    }
     void FixedUpdate()
     {
         parts[Obstacle.BodyPart.RightArm] = rAToggle.isOn;
