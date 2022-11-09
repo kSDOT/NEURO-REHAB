@@ -6485,11 +6485,6 @@ MonoBehaviour:
   tToggle: {fileID: 2049512678}
   rLToggle: {fileID: 1510696994}
   lLToggle: {fileID: 2060941165}
-  isRA: 0
-  isLA: 0
-  isT: 0
-  isRL: 0
-  isLL: 0
 --- !u!1 &1362001357
 GameObject:
   m_ObjectHideFlags: 0
@@ -8624,11 +8619,6 @@ MonoBehaviour:
   tToggle: {fileID: 1150348598}
   rLToggle: {fileID: 1517383184}
   lLToggle: {fileID: 1791568859}
-  isRA: 0
-  isLA: 0
-  isT: 0
-  isRL: 0
-  isLL: 0
 --- !u!114 &1754659983
 MonoBehaviour:
   m_ObjectHideFlags: 0

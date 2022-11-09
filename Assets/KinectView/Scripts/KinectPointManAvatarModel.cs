@@ -55,11 +55,11 @@ public class KinectPointManAvatarModel : BasicAvatarModel
 {JointType.FootRight , JointType.AnkleRight },// rotation of bone endings can't be computed from bone positions 
 {JointType.SpineShoulder , JointType.Neck },
 
-{JointType.HandTipLeft , JointType.HandLeft },// rotation of bone endings can't be computed from bone positions 
-{JointType.ThumbLeft , JointType.WristLeft },// rotation of bone endings can't be computed from bone positions 
+//{JointType.HandTipLeft , JointType.HandLeft },// rotation of bone endings can't be computed from bone positions 
+//{JointType.ThumbLeft , JointType.WristLeft },// rotation of bone endings can't be computed from bone positions 
 
-{JointType.HandTipRight , JointType.HandRight },// rotation of bone endings can't be computed from bone positions 
-{JointType.ThumbRight , JointType.WristRight }// rotation of bone endings can't be computed from bone positions 
+//{JointType.HandTipRight , JointType.HandRight },// rotation of bone endings can't be computed from bone positions 
+//{JointType.ThumbRight , JointType.WristRight }// rotation of bone endings can't be computed from bone positions 
 
     };
 
@@ -94,6 +94,8 @@ public class KinectPointManAvatarModel : BasicAvatarModel
         if (currentBody == null)
             return Vector3.zero;
         CameraSpacePoint point = currentBody.Joints[jt].Position;
+        if (jt.ToString() == "SpineBase")
+            Debug.Log("SpineBase: " + new Vector3(point.X, point.Y, -point.Z));
         // mirror on X/Y Plane to remove mirroring effect of the kinect data
         return new Vector3(point.X, point.Y, -point.Z) * 10.0f;
     }

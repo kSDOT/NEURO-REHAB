@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Windows.Kinect;
 using System;
+using UnityEditor.XR.LegacyInputHelpers;
 
 public class BasicAvatarController : MonoBehaviour
 {
@@ -10,7 +11,6 @@ public class BasicAvatarController : MonoBehaviour
 
     // root transformation, used to determine the initial rotation of the complete model
     public Transform RootTransform;
-    private Vector3 lastRootTransform;
 
     private Dictionary<ulong, GameObject> _Bodies = new Dictionary<ulong, GameObject>();
     private BodySourceManager _BodyManager;
@@ -25,6 +25,13 @@ public class BasicAvatarController : MonoBehaviour
 
     // initial joint rotations of the model (the rotations are "local rotations" relative to the RootTransform rotation; see Start function for further details)
     protected Dictionary<JointType, Quaternion> initialModelJointRotations = new Dictionary<JointType, Quaternion>();
+
+    public Vector3 offsetRoot;
+
+    public Transform offsetVR;
+    public Vector3 offsetAdd;
+    public Transform headTransform;
+
 
     // called by derived class (e.g. UnityChanController) at the end of its own Start function after setting the available joints
     public virtual void Start()
@@ -43,7 +50,6 @@ public class BasicAvatarController : MonoBehaviour
         {
             initialModelJointRotations[jt] = Quaternion.Inverse(RootTransform.rotation) * knownJoints[jt].rotation;
         }
-        this.lastRootTransform = this.RootTransform.position;
 
     }
     // Update rotation of all known joints
@@ -65,23 +71,14 @@ public class BasicAvatarController : MonoBehaviour
             }
             if ((lastMoved[jt].rotation.eulerAngles - knownJoints[jt].rotation.eulerAngles).magnitude >= 30 * Time.deltaTime)
             {
-                knownJoints[jt].rotation = Quaternion.Slerp(knownJoints[jt].rotation, lastMoved[jt].rotation, 1f);
-                //knownJoints[jt].rotation = lastMoved[jt].rotation;
+                knownJoints[jt].rotation = Quaternion.Slerp(knownJoints[jt].rotation, lastMoved[jt].rotation, 1f);      
 
             }
 
         }
-
-        var temp2 = MoCapAvatar.getRawWorldPosition(JointType.SpineBase);
-        if ((temp2 - this.lastRootTransform).magnitude <= Time.deltaTime)
-        {
-            this.lastRootTransform = temp2;
-        }
-        if (((this.RootTransform.transform.position - this.lastRootTransform).magnitude >= 0.1 * Time.deltaTime) || Time.timeSinceLevelLoad < 1f)
-        {
-
-            RootTransform.position = this.lastRootTransform;
-        }
+        
+        RootTransform.position = MoCapAvatar.getRawWorldPosition(JointType.SpineBase)/10.0f + offsetRoot;
+        offsetVR.position = headTransform.position + offsetAdd; 
     }
 
 

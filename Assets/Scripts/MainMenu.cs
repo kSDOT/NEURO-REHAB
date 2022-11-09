@@ -20,11 +20,15 @@ public class MainMenu : MonoBehaviour
     [SerializeField] Toggle rLToggle;
     [SerializeField] Toggle lLToggle;
 
-    public bool isRA;
-    public bool isLA;
-    public bool isT;
-    public bool isRL;
-    public bool isLL;
+    public static bool isRA;
+    public static bool isLA;
+    public static bool isT;
+    public static bool isRL;
+    public static bool isLL;
+
+    public static float speed = 2.0f;// Manuel
+    public static float spawnInterval = 1f;// Manuel
+
 
     void FixedUpdate(){
         isRA = rAToggle.isOn;
