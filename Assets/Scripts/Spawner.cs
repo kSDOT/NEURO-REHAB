@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using UnityEditor;
 using System.Linq;
-
+using TMPro;
 public class Spawner : MonoBehaviour
 {
 
@@ -14,12 +14,13 @@ public class Spawner : MonoBehaviour
 
     public Vector3 Range = new Vector3(5, 0f, 5f);
     public float Depth=5f;
-    
 
+    public AudioSource success;
     public int InstantSpawn = 0;
     public List<Obstacle> Spawned;
     private List<Obstacle.BodyPart> keyList;
     public bool debugPositions = false;
+    static public int Score = 0;
 
     #endregion
 
@@ -132,14 +133,20 @@ public class Spawner : MonoBehaviour
 
     void Update()
     {
+        GameObject.Find("Score").GetComponent<TextMeshProUGUI>().text = "Score: " + Score.ToString();
         for (int index= 0; index < this.Spawned.Count; index++)
         {
             Obstacle obstacle = this.Spawned[index];
-            if (obstacle.transform.position.z <= this.Player.transform.position.z - 0.3f)
-            {
-                Destroy(obstacle.gameObject);
-                this.Spawned.Remove(obstacle);
+            if (obstacle != null) {      
+                if (obstacle.transform.position.z <= this.Player.transform.position.z - 0.5f)
+                {
+                     success.Play();
+                     Destroy(obstacle.gameObject);
+                     this.Spawned.Remove(obstacle);
+                     Score++;
+                }
             }
+       
         }
 
     }

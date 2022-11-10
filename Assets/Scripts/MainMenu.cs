@@ -36,8 +36,8 @@ public class MainMenu : MonoBehaviour
     public static bool isRL;
     public static bool isLL;
 
-    public static float speed = 2.0f;// Manuel
-    public static float spawnInterval = 1f;// Manuel
+    public static float speed = 1.0f;// Manuel
+    public static float spawnInterval = 2f;// Manuel
     public static Dictionary<Obstacle.BodyPart, bool> parts = new Dictionary<Obstacle.BodyPart, bool>();
 
     void Awake()

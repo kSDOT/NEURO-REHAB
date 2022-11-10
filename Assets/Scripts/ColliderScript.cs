@@ -1,8 +1,10 @@
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class ColliderScript : MonoBehaviour
 {
     // Start is called before the first frame update
+    public AudioSource hitAudio;
     void Start()
     {
     }
@@ -12,12 +14,15 @@ public class ColliderScript : MonoBehaviour
     {
 
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
+        //Debug.Log("Hit3");
 
         if (other?.gameObject?.tag == "Obstacle")
         {
-            Debug.Log("Hit");
+            //Debug.Log("Hit4");
+            hitAudio.Play();
+            Destroy(other.gameObject);
         }
     }
 }
