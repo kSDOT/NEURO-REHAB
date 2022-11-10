@@ -18,8 +18,8 @@ public class Spawner : MonoBehaviour
 
     public int InstantSpawn = 0;
     public List<Obstacle> Spawned;
-
-
+    private List<Obstacle.BodyPart> keyList;
+    public bool debugPositions = false;
 
     #endregion
 
@@ -27,7 +27,20 @@ public class Spawner : MonoBehaviour
     void Start()
     {
         this.Player = GameObject.FindGameObjectWithTag("Player");
-       
+
+
+
+        keyList = MainMenu.parts.Where(kvp => kvp.Value == true).Select(kvp => kvp.Key).ToList();
+        if (keyList.Count == 0)
+        {
+
+            MainMenu.parts[Obstacle.BodyPart.RightArm] = true;
+            MainMenu.parts[Obstacle.BodyPart.LeftArm] = true;
+            MainMenu.parts[Obstacle.BodyPart.Torso] = true;
+            MainMenu.parts[Obstacle.BodyPart.RightLeg] = true;
+            MainMenu.parts[Obstacle.BodyPart.LeftLeg] = true;
+            keyList = MainMenu.parts.Where(kvp => kvp.Value == true).Select(kvp => kvp.Key).ToList();
+        }
 
         for (int i = 0; i < this.InstantSpawn; i++)
         {
@@ -38,12 +51,7 @@ public class Spawner : MonoBehaviour
 
     private (Vector3, Obstacle.BodyPart) RandomInitialize()
     {
-        List<Obstacle.BodyPart> keyList =  MainMenu.parts.Where(kvp => kvp.Value == true).Select(kvp=> kvp.Key).ToList();
-        if (keyList.Count == 0)
-        {
-            throw new Exception("Need to select at least 1 part");
-        }
-        Obstacle.BodyPart part = keyList[UnityEngine.Random.Range(0, keyList.Count-1)];
+        Obstacle.BodyPart part = keyList[UnityEngine.Random.Range(0, keyList.Count)];
         Vector3 MinValue = Vector3.zero;
         Vector3 MaxValue = Vector3.zero;
         if (part == Obstacle.BodyPart.RightArm)
@@ -63,9 +71,9 @@ public class Spawner : MonoBehaviour
         else if (part == Obstacle.BodyPart.Torso)
         {
 
-            MinValue = GameObject.Find("SpineShoulder").transform.position;
+            MinValue = GameObject.Find("SpineBase").transform.position;
             MaxValue = 
-              (GameObject.Find("SpineBase").transform.position + GameObject.Find("SpineShoulder").transform.position) *2/ 3;
+              (GameObject.Find("SpineBase").transform.position + GameObject.Find("SpineShoulder").transform.position) * 3/5;
         }
         else if (part == Obstacle.BodyPart.RightLeg)
         {
@@ -76,10 +84,22 @@ public class Spawner : MonoBehaviour
         }
         else if (part == Obstacle.BodyPart.LeftLeg)
         {
-
             MinValue = GameObject.Find("AnkleLeft").transform.position;
             MaxValue =
               (GameObject.Find("KneeLeft").transform.position + GameObject.Find("HipLeft").transform.position) / 2;
+        }
+        if (debugPositions)
+        {
+
+            var temp = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            //temp.transform.parent = this.Player.transform;
+            temp.transform.position = MinValue;
+            temp.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+            var temp2 = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            //temp.transform.parent = this.Player.transform;
+            temp2.transform.position = MaxValue;
+            temp2.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+            temp2.gameObject.GetComponent<Renderer>().material.color = Color.red;
         }
 
         return (new Vector3(    UnityEngine.Random.Range(MinValue.x, MaxValue.x),

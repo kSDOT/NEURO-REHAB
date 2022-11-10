@@ -311,7 +311,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Model: {fileID: 9152230180166424801, guid: 47a8d4a27ba6a95449a7c079fda1d682, type: 3}
   Range: {x: 5, y: 0, z: 5}
-  SafeDistance: 3
+  Depth: 5
   InstantSpawn: 6
   Spawned: []
 --- !u!1001 &9014170785273859917
